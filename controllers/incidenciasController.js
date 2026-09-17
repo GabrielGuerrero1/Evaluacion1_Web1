@@ -35,4 +35,55 @@ function registrarIncidencia(req, res) {
   return res.status(201).json({ mensaje: "Incidencia registrada correctamente" });
 }
 
-module.exports = { registrarIncidencia };
+function cambiarEstado(req, res) {
+  const id = Number(req.params.id);
+  const { estado } = req.body;
+
+  const incidencia = incidencias.find(incidencia => incidencia.id === id);
+
+  if (!incidencia) {
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+  }
+
+  switch (estado) {
+    case "Pendiente":
+    case "En Proceso":
+    case "Resuelta":
+    case "Cancelada":
+      incidencia.estado = estado;
+
+      return res.status(200).json({
+        mensaje: "Estado actualizado correctamente",
+        incidencia
+      });
+
+    default:
+      return res.status(400).json({
+        mensaje: "Estado inválido"
+      });
+  }
+}
+
+function eliminarIncidencia(req, res) {
+  const id = Number(req.params.id);
+
+  const indice = incidencias.findIndex(incidencia => incidencia.id === id);
+
+  if (indice === -1) {
+    return res.status(404).json({
+      mensaje: "Incidencia no encontrada"
+    });
+  }
+
+  incidencias.splice(indice, 1);
+
+  return res.status(200).json({
+    mensaje: "Incidencia eliminada correctamente"
+  });
+}
+
+module.exports = {
+  registrarIncidencia,
+  cambiarEstado,
+  eliminarIncidencia
+};
