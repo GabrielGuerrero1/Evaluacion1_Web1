@@ -5,7 +5,7 @@ const PORT = 3000;
 app.use(express.json());
 
 const incidenciasRoutes = require('../routes/incidencias');
-const { getNextId } = require('../data/incidencias');
+const { getNextId, incidencias } = require('../data/incidencias');
 app.use('/incidencias', incidenciasRoutes);
 
 app.get('/api/incidencias/:id' , (req, res) =>{
@@ -15,7 +15,7 @@ app.get('/api/incidencias/:id' , (req, res) =>{
     return res.status(400).json({mensaje: 'el id tiene que ser exclusivamente un numero'})
   }
 
-  const incidencia = incidenciasRoutes.find((i) => i.id === id)
+  const incidencia = incidencias.find((i) => i.id === id)
 
   if (!incidencia){
     return res.status(404).json({mensaje: 'Incidencia no encontrada'})
