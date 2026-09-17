@@ -82,8 +82,78 @@ function eliminarIncidencia(req, res) {
   });
 }
 
+
+function obtenerEstadisticas(req, res) {
+  const estadisticas = incidencias.reduce(
+    (acc, incidencia) => {
+      acc.totalIncidencias++;
+
+      switch (incidencia.estado) {
+        case "Pendiente":
+          acc.pendientes++;
+          break;
+        case "En Proceso":
+          acc.enProceso++;
+          break;
+        case "Resuelta":
+          acc.resueltas++;
+          break;
+        case "Cancelada":
+          acc.canceladas++;
+          break;
+        default:
+          break;
+      }
+
+      return acc;
+    },
+    {
+      totalIncidencias: 0,
+      pendientes: 0,
+      enProceso: 0,
+      resueltas: 0,
+      canceladas: 0
+    }
+  );
+
+  return res.status(200).json(estadisticas);
+}
+
+function obtenerClasificacion(req, res) {
+  const id = Number(req.params.id);
+
+  const incidencia = incidencias.find(inc => inc.id === id);
+
+  if (!incidencia) {
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+  }
+
+  let clasificacion;
+
+  switch (incidencia.prioridad) {
+    case "Alta":
+      clasificacion = "Crítica";
+      break;
+    case "Media":
+      clasificacion = "Importante";
+      break;
+    case "Baja":
+      clasificacion = "Normal";
+      break;
+    default:
+      clasificacion = "No definida";
+  }
+
+  return res.status(200).json({
+    id: incidencia.id,
+    "clasificación": clasificacion
+  });
+}
+
 module.exports = {
   registrarIncidencia,
   cambiarEstado,
-  eliminarIncidencia
+  eliminarIncidencia,
+  obtenerEstadisticas,
+  obtenerClasificacion
 };
