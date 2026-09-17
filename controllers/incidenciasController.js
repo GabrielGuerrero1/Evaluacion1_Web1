@@ -35,6 +35,26 @@ function registrarIncidencia(req, res) {
   return res.status(201).json({ mensaje: "Incidencia registrada correctamente" });
 }
 
+function listarIncidencia (req, res){
+   return res.status(200).json(incidencias);
+};
+
+function buscarIncidencia(req, res){
+    const id = Number(req.params.id);
+
+  if(Number.isNaN(id) ){
+    return res.status(400).json({mensaje: 'el id tiene que ser exclusivamente un numero'})
+  }
+
+  const incidencia = incidencias.find((i) => i.id === id)
+
+  if (!incidencia){
+    return res.status(404).json({mensaje: 'Incidencia no encontrada'})
+  };
+  return res.status(200).json(incidencia);
+
+}
+
 function cambiarEstado(req, res) {
   const id = Number(req.params.id);
   const { estado } = req.body;
@@ -152,6 +172,8 @@ function obtenerClasificacion(req, res) {
 
 module.exports = {
   registrarIncidencia,
+  listarIncidencia,
+  buscarIncidencia,
   cambiarEstado,
   eliminarIncidencia,
   obtenerEstadisticas,
