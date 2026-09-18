@@ -35,6 +35,26 @@ function registrarIncidencia(req, res) {
   return res.status(201).json({ mensaje: "Incidencia registrada correctamente" });
 }
 
+function listarIncidencias(req, res) {
+  return res.status(200).json(incidencias);
+}
+
+function buscarIncidencias(req, res) {
+  const id = Number(req.params.id);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ mensaje: "El id debe ser un número" });
+  }
+
+  const incidencia = incidencias.find(i => i.id === id);
+
+  if (!incidencia) {
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+  }
+
+  return res.status(200).json(incidencia);
+}
+
 function cambiarEstado(req, res) {
   const id = Number(req.params.id);
   const { estado } = req.body;
@@ -58,9 +78,7 @@ function cambiarEstado(req, res) {
       });
 
     default:
-      return res.status(400).json({
-        mensaje: "Estado inválido"
-      });
+      return res.status(400).json({ mensaje: "Estado inválido" });
   }
 }
 
@@ -70,18 +88,13 @@ function eliminarIncidencia(req, res) {
   const indice = incidencias.findIndex(incidencia => incidencia.id === id);
 
   if (indice === -1) {
-    return res.status(404).json({
-      mensaje: "Incidencia no encontrada"
-    });
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
   }
 
   incidencias.splice(indice, 1);
 
-  return res.status(200).json({
-    mensaje: "Incidencia eliminada correctamente"
-  });
+  return res.status(200).json({ mensaje: "Incidencia eliminada correctamente" });
 }
-
 
 function obtenerEstadisticas(req, res) {
   const estadisticas = incidencias.reduce(
@@ -152,6 +165,8 @@ function obtenerClasificacion(req, res) {
 
 module.exports = {
   registrarIncidencia,
+  listarIncidencias,
+  buscarIncidencias,
   cambiarEstado,
   eliminarIncidencia,
   obtenerEstadisticas,
