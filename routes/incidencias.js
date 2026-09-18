@@ -21,8 +21,12 @@ router.get('/:id', buscarIncidencias);
 
 router.post('/', registrarIncidencia);
 
-router.put('/:id/estado', cambiarEstado);
+router.get('/incidencias', listarIncidencia)
 
-router.delete('/:id', eliminarIncidencia);
+router.get('/incidencias/:id', buscarIncidencia);
+
+router.put('.incidencias/:id/estado', cambiarEstado);
+
+router.delete('.incidencias/:id', eliminarIncidencia);
 
 module.exports = router;
