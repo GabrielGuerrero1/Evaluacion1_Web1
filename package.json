@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/GabrielGuerrero1/Evaluacion1_Web1#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "node": "^26.9.0"
   }
 }
