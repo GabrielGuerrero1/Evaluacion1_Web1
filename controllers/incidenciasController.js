@@ -35,24 +35,24 @@ function registrarIncidencia(req, res) {
   return res.status(201).json({ mensaje: "Incidencia registrada correctamente" });
 }
 
-function listarIncidencia (req, res){
-   return res.status(200).json(incidencias);
-};
+function listarIncidencias(req, res) {
+  return res.status(200).json(incidencias);
+}
 
-function buscarIncidencia(req, res){
-    const id = Number(req.params.id);
+function buscarIncidencias(req, res) {
+  const id = Number(req.params.id);
 
-  if(Number.isNaN(id) ){
-    return res.status(400).json({mensaje: 'el id tiene que ser exclusivamente un numero'})
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ mensaje: "El id debe ser un número" });
   }
 
-  const incidencia = incidencias.find((i) => i.id === id)
+  const incidencia = incidencias.find(i => i.id === id);
 
-  if (!incidencia){
-    return res.status(404).json({mensaje: 'Incidencia no encontrada'})
-  };
+  if (!incidencia) {
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
+  }
+
   return res.status(200).json(incidencia);
-
 }
 
 function cambiarEstado(req, res) {
@@ -78,9 +78,7 @@ function cambiarEstado(req, res) {
       });
 
     default:
-      return res.status(400).json({
-        mensaje: "Estado inválido"
-      });
+      return res.status(400).json({ mensaje: "Estado inválido" });
   }
 }
 
@@ -90,18 +88,13 @@ function eliminarIncidencia(req, res) {
   const indice = incidencias.findIndex(incidencia => incidencia.id === id);
 
   if (indice === -1) {
-    return res.status(404).json({
-      mensaje: "Incidencia no encontrada"
-    });
+    return res.status(404).json({ mensaje: "Incidencia no encontrada" });
   }
 
   incidencias.splice(indice, 1);
 
-  return res.status(200).json({
-    mensaje: "Incidencia eliminada correctamente"
-  });
+  return res.status(200).json({ mensaje: "Incidencia eliminada correctamente" });
 }
-
 
 function obtenerEstadisticas(req, res) {
   const estadisticas = incidencias.reduce(
@@ -172,8 +165,8 @@ function obtenerClasificacion(req, res) {
 
 module.exports = {
   registrarIncidencia,
-  listarIncidencia,
-  buscarIncidencia,
+  listarIncidencias,
+  buscarIncidencias,
   cambiarEstado,
   eliminarIncidencia,
   obtenerEstadisticas,
