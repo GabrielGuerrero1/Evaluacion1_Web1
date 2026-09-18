@@ -21,9 +21,9 @@ router.get('/:id', buscarIncidencias);
 
 router.post('/', registrarIncidencia);
 
-router.get('/incidencias', listarIncidencia)
+router.get('/incidencias', listarIncidencias)
 
-router.get('/incidencias/:id', buscarIncidencia);
+router.get('/incidencias/:id', buscarIncidencias);
 
 router.put('.incidencias/:id/estado', cambiarEstado);
 
